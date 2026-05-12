@@ -6,9 +6,7 @@
 <title>TOKYO2026</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 :root{
   --bg:#f4f7fb;
@@ -23,19 +21,11 @@
 
 body{
   margin:0;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:var(--bg);
   overflow:hidden;
   color:var(--text);
 }
-
-/* ===== PC TOOLBAR ===== */
 
 header{
   height:72px;
@@ -58,12 +48,7 @@ header{
   white-space:nowrap;
 }
 
-button,
-select,
-input,
-textarea{
-  font:inherit;
-}
+button,select,input,textarea{font:inherit}
 
 button{
   height:42px;
@@ -75,18 +60,10 @@ button{
 }
 
 .primary{
-  background:
-    linear-gradient(
-      135deg,
-      var(--primary),
-      var(--primary2)
-    );
-
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
   color:white;
   font-weight:700;
-
-  box-shadow:
-    0 6px 20px rgba(37,99,235,.28);
+  box-shadow:0 6px 20px rgba(37,99,235,.28);
 }
 
 .secondary{
@@ -95,19 +72,12 @@ button{
   color:var(--text);
 }
 
-select,
-input{
+select,input{
   height:42px;
-
   border-radius:999px;
-
   border:1px solid var(--border);
-
-  background:
-    rgba(255,255,255,.92);
-
+  background:rgba(255,255,255,.92);
   padding:0 14px;
-
   outline:none;
 }
 
@@ -120,40 +90,26 @@ input{
   width:100%;
 }
 
-/* ===== SEARCH SUGGESTIONS ===== */
-
 #suggestions{
   position:absolute;
-
   top:48px;
   left:0;
   right:0;
-
   background:white;
-
   border:1px solid var(--border);
-
   border-radius:18px;
-
   box-shadow:var(--shadow);
-
   overflow:hidden;
-
   display:none;
-
   z-index:200;
-
   max-height:320px;
-
   overflow-y:auto;
 }
 
 .suggestion{
   padding:12px 14px;
   cursor:pointer;
-
-  border-bottom:
-    1px solid rgba(15,23,42,.06);
+  border-bottom:1px solid rgba(15,23,42,.06);
 }
 
 .suggestion:hover{
@@ -168,50 +124,30 @@ input{
 .suggestionMemo{
   font-size:12px;
   color:var(--muted);
-
   margin-top:3px;
-
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-/* ===== STATUS ===== */
-
 #status{
   margin-left:auto;
-
   font-size:12px;
-
   color:var(--muted);
-
-  background:
-    rgba(15,23,42,.04);
-
+  background:rgba(15,23,42,.04);
   border:1px solid var(--border);
-
   padding:8px 12px;
-
   border-radius:999px;
-
   white-space:nowrap;
 }
 
-/* ===== MAP ===== */
-
 #mapContainer{
   width:100vw;
-
   height:calc(100vh - 72px);
-
   overflow:auto;
-
   background:#dfe5ec;
-
   position:relative;
-
   -webkit-overflow-scrolling:touch;
-
   cursor:grab;
 }
 
@@ -225,7 +161,6 @@ input{
 
 #mapInner{
   position:relative;
-
   width:5040px;
   height:3564px;
 }
@@ -233,108 +168,57 @@ input{
 #railmap{
   width:5040px;
   height:3564px;
-
   display:block;
-
   user-select:none;
   -webkit-user-drag:none;
-
   pointer-events:none;
 }
 
-/* ===== MARKERS ===== */
-
 .marker{
   position:absolute;
-
-  transform:
-    translate(-50%,-100%);
-
+  transform:translate(-50%,-100%);
   font-size:28px;
-
   cursor:pointer;
-
   user-select:none;
-
   z-index:5;
-
   opacity:.92;
-
-  filter:
-    drop-shadow(
-      0 3px 5px rgba(15,23,42,.22)
-    );
+  filter:drop-shadow(0 3px 5px rgba(15,23,42,.22));
 }
 
 .marker.active{
-  animation:
-    pulse 1.2s ease-in-out infinite;
+  animation:pulse 1.2s ease-in-out infinite;
 }
 
 @keyframes pulse{
-
-  0%{
-    transform:
-      translate(-50%,-100%)
-      scale(1);
-  }
-
-  50%{
-    transform:
-      translate(-50%,-100%)
-      scale(1.18);
-  }
-
-  100%{
-    transform:
-      translate(-50%,-100%)
-      scale(1);
-  }
+  0%{transform:translate(-50%,-100%) scale(1)}
+  50%{transform:translate(-50%,-100%) scale(1.18)}
+  100%{transform:translate(-50%,-100%) scale(1)}
 }
 
 .memo{
   position:absolute;
-
   right:-8px;
   top:-6px;
-
   font-size:10px;
-
   background:white;
-
   border-radius:999px;
-
   padding:2px;
-
-  box-shadow:
-    0 2px 8px rgba(15,23,42,.16);
+  box-shadow:0 2px 8px rgba(15,23,42,.16);
 }
-
-/* ===== EDIT PANEL ===== */
 
 #panel{
   position:fixed;
-
   top:92px;
   right:20px;
-
   width:360px;
-
   background:var(--panel);
-
   backdrop-filter:blur(24px);
-
   border:1px solid var(--border);
-
   border-radius:24px;
-
   padding:18px;
-
   box-shadow:var(--shadow);
-
   display:none;
-
-  z-index:100;
+  z-index:120;
 }
 
 #panel.show{
@@ -352,12 +236,9 @@ input{
 
 .field label{
   display:block;
-
   margin-bottom:6px;
-
   font-size:12px;
   font-weight:700;
-
   color:var(--muted);
 }
 
@@ -365,16 +246,10 @@ input{
 .field textarea,
 .field select{
   width:100%;
-
   border-radius:16px;
-
   border:1px solid var(--border);
-
-  background:
-    rgba(255,255,255,.92);
-
+  background:rgba(255,255,255,.92);
   padding:12px;
-
   outline:none;
 }
 
@@ -391,107 +266,55 @@ textarea{
 
 .danger{
   background:#fff5f5;
-
   color:#dc2626;
-
-  border:
-    1px solid rgba(220,38,38,.18);
+  border:1px solid rgba(220,38,38,.18);
 }
-
-/* ===== HINT ===== */
 
 .hint{
   position:fixed;
-
   left:14px;
   bottom:14px;
-
-  background:
-    rgba(15,23,42,.82);
-
+  background:rgba(15,23,42,.82);
   color:white;
-
   padding:12px 14px;
-
   border-radius:18px;
-
   font-size:12px;
-
   z-index:30;
 }
-
-/* ===== MOBILE TOGGLE ===== */
 
 #mobileToggle{
   display:none;
 }
 
-/* ========================================= */
-/* =============== MOBILE ================== */
-/* ========================================= */
-
 @media(max-width:760px){
 
   header{
     position:fixed;
-
     left:10px;
     right:10px;
-
-    bottom:
-      calc(
-        72px +
-        env(safe-area-inset-bottom)
-      );
-
+    bottom:calc(72px + env(safe-area-inset-bottom));
     top:auto;
-
     width:auto;
-
     height:auto;
-
     max-height:32vh;
-
     padding:12px;
-
-    border:
-      1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:24px;
-
-    box-shadow:
-      0 -8px 30px rgba(15,23,42,.2);
-
+    box-shadow:0 -8px 30px rgba(15,23,42,.2);
     display:grid;
-
-    grid-template-columns:
-      1fr 1fr;
-
+    grid-template-columns:1fr 1fr;
     gap:8px;
-
     overflow:visible;
-
-    transform:
-      translateY(
-        calc(100% + 90px)
-      );
-
+    transform:translateY(calc(100% + 90px));
     opacity:0;
-
     pointer-events:none;
-
-    transition:
-      transform .22s ease,
-      opacity .18s ease;
-
+    transition:transform .22s ease, opacity .18s ease;
     z-index:90;
   }
 
   header.open{
     transform:translateY(0);
-
     opacity:1;
-
     pointer-events:auto;
   }
 
@@ -521,9 +344,7 @@ textarea{
 
   .searchBox{
     grid-column:1 / 3;
-
     width:100%;
-
     min-width:0;
   }
 
@@ -533,72 +354,37 @@ textarea{
 
   #status{
     grid-column:2 / 3;
-
     margin-left:0;
-
     width:100%;
-
     text-align:center;
-
     padding:6px 8px;
-
     font-size:11px;
   }
 
   #suggestions{
     top:auto;
-
     bottom:46px;
-
     max-height:34vh;
-
     border-radius:18px;
   }
 
-  /* ===== FIXED MOBILE BUTTON ===== */
-
   #mobileToggle{
     display:flex;
-
     position:fixed;
-
     right:14px;
-
-    bottom:
-      calc(
-        14px +
-        env(safe-area-inset-bottom)
-      );
-
+    bottom:calc(14px + env(safe-area-inset-bottom));
     z-index:95;
-
     height:44px;
-
     width:72px;
-
     min-width:0;
-
     padding:0;
-
     align-items:center;
     justify-content:center;
-
     border-radius:999px;
-
-    background:
-      linear-gradient(
-        135deg,
-        var(--primary),
-        var(--primary2)
-      );
-
+    background:linear-gradient(135deg,var(--primary),var(--primary2));
     color:white;
-
     font-weight:800;
-
-    box-shadow:
-      0 12px 30px rgba(37,99,235,.36);
-
+    box-shadow:0 12px 30px rgba(37,99,235,.36);
     font-size:14px;
   }
 
@@ -613,7 +399,6 @@ textarea{
 
   .memo{
     font-size:9px;
-
     right:-6px;
     top:-5px;
   }
@@ -621,40 +406,25 @@ textarea{
   #panel{
     left:10px;
     right:10px;
-
-    bottom:
-      calc(
-        10px +
-        env(safe-area-inset-bottom)
-      );
-
+    bottom:calc(10px + env(safe-area-inset-bottom));
     top:auto;
-
     width:auto;
-
     max-height:82vh;
-
     overflow:auto;
-
     border-radius:26px;
-
     padding:18px;
-
     z-index:120;
   }
 
   .actions{
     display:grid;
-
-    grid-template-columns:
-      1fr 1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
   }
 
   .hint{
     display:none;
   }
 }
-
 </style>
 </head>
 
@@ -662,131 +432,62 @@ textarea{
 
 <header id="toolbar">
 
-  <div class="logo">
-    TOKYO2026
-  </div>
+  <div class="logo">TOKYO2026</div>
 
-  <button id="addBtn" class="primary">
-    マーク追加
-  </button>
+  <button id="addBtn" class="primary">マーク追加</button>
 
   <select id="rankSelect">
-
-    <option value="love">
-      😍 とても住みたい
-    </option>
-
-    <option value="want">
-      ⭐ 住みたい
-    </option>
-
-    <option value="low">
-      👀 少し気になる
-    </option>
-
+    <option value="love">😍 とても住みたい</option>
+    <option value="want">⭐ 住みたい</option>
+    <option value="low">👀 少し気になる</option>
   </select>
 
   <div class="searchBox">
-
-    <input
-      id="searchInput"
-      placeholder="登録済み駅・メモを検索">
-
+    <input id="searchInput" placeholder="登録済み駅・メモを検索">
     <div id="suggestions"></div>
-
   </div>
 
-  <button id="reloadBtn" class="secondary">
-    再読み込み
-  </button>
+  <button id="reloadBtn" class="secondary">再読み込み</button>
 
-  <div id="status">
-    読み込み前
-  </div>
+  <div id="status">読み込み前</div>
 
 </header>
 
-<button id="mobileToggle">
-  操作
-</button>
+<button id="mobileToggle">操作</button>
 
 <div id="mapContainer">
-
   <div id="mapInner">
-
-    <img
-      id="railmap"
-      src="tokyo-railmap.png"
-      alt="首都圏路線図">
-
+    <img id="railmap" src="tokyo-railmap.png" alt="首都圏路線図">
   </div>
-
 </div>
 
 <div id="panel">
 
-  <h2 id="panelTitle">
-    駅メモ
-  </h2>
+  <h2 id="panelTitle">駅メモ</h2>
 
   <div class="field">
-
-    <label>
-      駅名
-    </label>
-
+    <label>駅名</label>
     <input id="stationInput">
-
   </div>
 
   <div class="field">
-
-    <label>
-      ランク
-    </label>
-
+    <label>ランク</label>
     <select id="rankEdit">
-
-      <option value="love">
-        😍 とても住みたい
-      </option>
-
-      <option value="want">
-        ⭐ 住みたい
-      </option>
-
-      <option value="low">
-        👀 少し気になる
-      </option>
-
+      <option value="love">😍 とても住みたい</option>
+      <option value="want">⭐ 住みたい</option>
+      <option value="low">👀 少し気になる</option>
     </select>
-
   </div>
 
   <div class="field">
-
-    <label>
-      メモ
-    </label>
-
+    <label>メモ</label>
     <textarea id="memoInput"></textarea>
-
   </div>
 
   <div class="actions">
-
-    <button id="deleteBtn" class="danger">
-      削除
-    </button>
-
-    <button id="closeBtn" class="secondary">
-      閉じる
-    </button>
-
-    <button id="saveBtn" class="primary">
-      保存
-    </button>
-
+    <button id="deleteBtn" class="danger">削除</button>
+    <button id="closeBtn" class="secondary">閉じる</button>
+    <button id="saveBtn" class="primary">保存</button>
   </div>
 
 </div>
@@ -804,261 +505,304 @@ const STORAGE_KEY =
 "tokyo2026";
 
 const rankMap = {
-
   love:{
     emoji:"😍",
     label:"とても住みたい"
   },
-
   want:{
     emoji:"⭐",
     label:"住みたい"
   },
-
   low:{
     emoji:"👀",
     label:"少し気になる"
   }
-
 };
 
 let markers = [];
-
 let adding = false;
-
 let selectedId = null;
 
 let isDraggingMap = false;
-
 let dragStartX = 0;
-
 let dragStartY = 0;
-
 let dragStartScrollLeft = 0;
-
 let dragStartScrollTop = 0;
-
 let dragMoved = false;
 
-const toolbar =
-document.getElementById("toolbar");
-
-const mobileToggle =
-document.getElementById("mobileToggle");
-
-const mapContainer =
-document.getElementById("mapContainer");
-
-const mapInner =
-document.getElementById("mapInner");
-
-const addBtn =
-document.getElementById("addBtn");
-
-const rankSelect =
-document.getElementById("rankSelect");
-
-const searchInput =
-document.getElementById("searchInput");
-
-const suggestions =
-document.getElementById("suggestions");
-
-const reloadBtn =
-document.getElementById("reloadBtn");
-
-const statusEl =
-document.getElementById("status");
-
-const panel =
-document.getElementById("panel");
-
-const panelTitle =
-document.getElementById("panelTitle");
-
-const stationInput =
-document.getElementById("stationInput");
-
-const memoInput =
-document.getElementById("memoInput");
-
-const rankEdit =
-document.getElementById("rankEdit");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-const closeBtn =
-document.getElementById("closeBtn");
-
-const deleteBtn =
-document.getElementById("deleteBtn");
+const toolbar = document.getElementById("toolbar");
+const mobileToggle = document.getElementById("mobileToggle");
+const mapContainer = document.getElementById("mapContainer");
+const mapInner = document.getElementById("mapInner");
+const addBtn = document.getElementById("addBtn");
+const rankSelect = document.getElementById("rankSelect");
+const searchInput = document.getElementById("searchInput");
+const suggestions = document.getElementById("suggestions");
+const reloadBtn = document.getElementById("reloadBtn");
+const statusEl = document.getElementById("status");
+const panel = document.getElementById("panel");
+const panelTitle = document.getElementById("panelTitle");
+const stationInput = document.getElementById("stationInput");
+const memoInput = document.getElementById("memoInput");
+const rankEdit = document.getElementById("rankEdit");
+const saveBtn = document.getElementById("saveBtn");
+const closeBtn = document.getElementById("closeBtn");
+const deleteBtn = document.getElementById("deleteBtn");
 
 function hasGasUrl(){
-
-  return(
-    GAS_WEB_APP_URL &&
-    !GAS_WEB_APP_URL.includes("ここに")
-  );
-
+  return GAS_WEB_APP_URL && !GAS_WEB_APP_URL.includes("ここに");
 }
 
 function uid(){
-
-  return(
-    Date.now().toString(36) +
-    Math.random().toString(36).slice(2)
-  );
-
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
 function setStatus(text){
-
   statusEl.textContent = text;
-
 }
 
 function openToolbar(){
-
   toolbar.classList.add("open");
-
   mobileToggle.classList.add("open");
-
   mobileToggle.textContent = "閉じる";
-
 }
 
 function closeToolbar(){
-
   toolbar.classList.remove("open");
-
   mobileToggle.classList.remove("open");
-
   mobileToggle.textContent = "操作";
-
 }
 
 function toggleToolbar(){
-
   if(toolbar.classList.contains("open")){
-
     closeToolbar();
-
   }else{
-
     openToolbar();
-
   }
-
 }
 
 function closeToolbarOnMobile(){
-
-  if(
-    window.matchMedia("(max-width:760px)").matches
-  ){
-
+  if(window.matchMedia("(max-width:760px)").matches){
     closeToolbar();
-
   }
-
 }
 
 async function loadMarkers(){
-
   setStatus("読み込み中...");
 
   try{
-
     if(hasGasUrl()){
-
-      const res =
-        await fetch(
-          GAS_WEB_APP_URL +
-          "?t=" +
-          Date.now()
-        );
-
-      const data =
-        await res.json();
-
-      markers =
-        data.markers || [];
-
+      const res = await fetch(GAS_WEB_APP_URL + "?t=" + Date.now());
+      const data = await res.json();
+      markers = data.markers || [];
     }else{
-
-      const data =
-        localStorage.getItem(
-          STORAGE_KEY
-        );
-
-      markers =
-        data ?
-        JSON.parse(data) :
-        [];
-
+      const data = localStorage.getItem(STORAGE_KEY);
+      markers = data ? JSON.parse(data) : [];
     }
 
     renderMarkers();
-
+    updateSuggestions();
     setStatus("読み込み完了");
-
   }catch(error){
-
     console.error(error);
-
     setStatus("読み込み失敗");
+  }
+}
 
+async function saveMarkers(){
+  setStatus("保存中...");
+
+  try{
+    if(hasGasUrl()){
+      await fetch(GAS_WEB_APP_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{
+          "Content-Type":"text/plain;charset=utf-8"
+        },
+        body:JSON.stringify({
+          markers:markers
+        })
+      });
+    }else{
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(markers));
+    }
+
+    setStatus("保存済み");
+  }catch(error){
+    console.error(error);
+    setStatus("保存失敗");
+  }
+}
+
+function getSearchResults(){
+  const q = searchInput.value.trim().toLowerCase();
+
+  if(!q){
+    return [];
   }
 
+  return markers.filter(marker=>{
+    const station = marker.station || "";
+    const memo = marker.memo || "";
+    const rankLabel = rankMap[marker.rank]?.label || "";
+
+    return (
+      station.toLowerCase().includes(q) ||
+      memo.toLowerCase().includes(q) ||
+      rankLabel.toLowerCase().includes(q)
+    );
+  });
+}
+
+function updateSuggestions(){
+  const results = getSearchResults();
+  suggestions.innerHTML = "";
+
+  if(results.length === 0){
+    suggestions.style.display = "none";
+    return;
+  }
+
+  results.slice(0,10).forEach(marker=>{
+    const item = document.createElement("div");
+    item.className = "suggestion";
+
+    const title = document.createElement("div");
+    title.className = "suggestionTitle";
+    title.textContent =
+      `${rankMap[marker.rank]?.emoji || "⭐"} ${marker.station || "駅名未入力"}`;
+
+    const memo = document.createElement("div");
+    memo.className = "suggestionMemo";
+    memo.textContent = marker.memo || rankMap[marker.rank]?.label || "";
+
+    item.appendChild(title);
+    item.appendChild(memo);
+
+    item.addEventListener("click",()=>{
+      jumpToMarker(marker.id);
+      closeToolbarOnMobile();
+    });
+
+    suggestions.appendChild(item);
+  });
+
+  suggestions.style.display = "block";
 }
 
 function renderMarkers(){
+  document.querySelectorAll(".marker").forEach(el=>el.remove());
 
-  document
-    .querySelectorAll(".marker")
-    .forEach(el=>el.remove());
+  const q = searchInput.value.trim().toLowerCase();
 
   markers.forEach(marker=>{
+    const station = marker.station || "";
+    const memo = marker.memo || "";
+    const rankLabel = rankMap[marker.rank]?.label || "";
 
-    const el =
-      document.createElement("div");
-
-    el.className = "marker";
-
-    el.style.left =
-      marker.x + "px";
-
-    el.style.top =
-      marker.y + "px";
-
-    el.textContent =
-      rankMap[marker.rank]
-      ?.emoji || "⭐";
-
-    if(marker.memo){
-
-      const memo =
-        document.createElement("span");
-
-      memo.className =
-        "memo";
-
-      memo.textContent =
-        "✏️";
-
-      el.appendChild(memo);
-
+    if(
+      q &&
+      !station.toLowerCase().includes(q) &&
+      !memo.toLowerCase().includes(q) &&
+      !rankLabel.toLowerCase().includes(q)
+    ){
+      return;
     }
 
-    mapInner.appendChild(el);
+    const el = document.createElement("div");
+    el.className = "marker";
+    el.dataset.id = marker.id;
+    el.style.left = marker.x + "px";
+    el.style.top = marker.y + "px";
+    el.textContent = rankMap[marker.rank]?.emoji || "⭐";
 
+    if(marker.id === selectedId){
+      el.classList.add("active");
+    }
+
+    if((marker.memo || "").trim()){
+      const memoIcon = document.createElement("span");
+      memoIcon.className = "memo";
+      memoIcon.textContent = "✏️";
+      el.appendChild(memoIcon);
+    }
+
+    el.addEventListener("click",event=>{
+      event.stopPropagation();
+
+      if(dragMoved){
+        return;
+      }
+
+      jumpToMarker(marker.id);
+    });
+
+    mapInner.appendChild(el);
+  });
+}
+
+function jumpToMarker(id){
+  const marker = markers.find(m=>m.id===id);
+
+  if(!marker){
+    return;
+  }
+
+  selectedId = id;
+  searchInput.value = marker.station || "";
+  suggestions.style.display = "none";
+
+  renderMarkers();
+
+  const targetLeft = Math.max(
+    marker.x - mapContainer.clientWidth / 2,
+    0
+  );
+
+  const targetTop = Math.max(
+    marker.y - mapContainer.clientHeight / 2,
+    0
+  );
+
+  mapContainer.scrollTo({
+    left:targetLeft,
+    top:targetTop,
+    behavior:"smooth"
   });
 
+  setTimeout(()=>{
+    openPanel(id);
+  },300);
+}
+
+function openPanel(id){
+  selectedId = id;
+
+  const marker = markers.find(m=>m.id===id);
+
+  if(!marker){
+    return;
+  }
+
+  stationInput.value = marker.station || "";
+  memoInput.value = marker.memo || "";
+  rankEdit.value = marker.rank || "want";
+
+  panelTitle.textContent =
+    (marker.station || "駅名未入力") + " のメモ";
+
+  renderMarkers();
+  panel.classList.add("show");
+}
+
+function closePanel(){
+  selectedId = null;
+  panel.classList.remove("show");
+  renderMarkers();
 }
 
 function startMapDrag(event){
-
   if(adding){
     return;
   }
@@ -1073,92 +817,164 @@ function startMapDrag(event){
   }
 
   isDraggingMap = true;
-
   dragMoved = false;
 
   dragStartX = event.clientX;
-
   dragStartY = event.clientY;
-
-  dragStartScrollLeft =
-    mapContainer.scrollLeft;
-
-  dragStartScrollTop =
-    mapContainer.scrollTop;
+  dragStartScrollLeft = mapContainer.scrollLeft;
+  dragStartScrollTop = mapContainer.scrollTop;
 
   mapContainer.classList.add("dragging");
-
 }
 
 function moveMapDrag(event){
-
   if(!isDraggingMap){
     return;
   }
 
-  const dx =
-    event.clientX - dragStartX;
+  const dx = event.clientX - dragStartX;
+  const dy = event.clientY - dragStartY;
 
-  const dy =
-    event.clientY - dragStartY;
-
-  if(
-    Math.abs(dx) > 3 ||
-    Math.abs(dy) > 3
-  ){
+  if(Math.abs(dx) > 3 || Math.abs(dy) > 3){
     dragMoved = true;
   }
 
-  mapContainer.scrollLeft =
-    dragStartScrollLeft - dx;
-
-  mapContainer.scrollTop =
-    dragStartScrollTop - dy;
-
+  mapContainer.scrollLeft = dragStartScrollLeft - dx;
+  mapContainer.scrollTop = dragStartScrollTop - dy;
 }
 
 function endMapDrag(){
-
   if(!isDraggingMap){
     return;
   }
 
   isDraggingMap = false;
-
   mapContainer.classList.remove("dragging");
 
   setTimeout(()=>{
-
     dragMoved = false;
-
   },0);
-
 }
 
-mobileToggle.addEventListener(
-  "click",
-  toggleToolbar
-);
+mobileToggle.addEventListener("click",toggleToolbar);
 
-mapContainer.addEventListener(
-  "pointerdown",
-  startMapDrag
-);
+addBtn.addEventListener("click",()=>{
+  adding = !adding;
 
-window.addEventListener(
-  "pointermove",
-  moveMapDrag
-);
+  mapContainer.classList.toggle("adding",adding);
 
-window.addEventListener(
-  "pointerup",
-  endMapDrag
-);
+  addBtn.textContent =
+    adding ? "配置中：駅をタップ" : "マーク追加";
 
-window.addEventListener(
-  "pointercancel",
-  endMapDrag
-);
+  closeToolbarOnMobile();
+});
+
+mapInner.addEventListener("click",event=>{
+  if(dragMoved){
+    return;
+  }
+
+  if(!adding){
+    return;
+  }
+
+  const rect = mapInner.getBoundingClientRect();
+
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  const marker = {
+    id:uid(),
+    x:x,
+    y:y,
+    station:"",
+    memo:"",
+    rank:rankSelect.value,
+    updatedAt:new Date().toISOString()
+  };
+
+  markers.push(marker);
+
+  adding = false;
+  mapContainer.classList.remove("adding");
+  addBtn.textContent = "マーク追加";
+
+  renderMarkers();
+  openPanel(marker.id);
+});
+
+saveBtn.addEventListener("click",async()=>{
+  const marker = markers.find(m=>m.id===selectedId);
+
+  if(!marker){
+    return;
+  }
+
+  marker.station = stationInput.value.trim();
+  marker.memo = memoInput.value.trim();
+  marker.rank = rankEdit.value;
+  marker.updatedAt = new Date().toISOString();
+
+  renderMarkers();
+  updateSuggestions();
+
+  await saveMarkers();
+
+  closePanel();
+});
+
+deleteBtn.addEventListener("click",async()=>{
+  if(!selectedId){
+    return;
+  }
+
+  if(!confirm("このマークを削除しますか？")){
+    return;
+  }
+
+  markers = markers.filter(m=>m.id!==selectedId);
+
+  renderMarkers();
+  updateSuggestions();
+
+  await saveMarkers();
+
+  closePanel();
+});
+
+searchInput.addEventListener("input",()=>{
+  renderMarkers();
+  updateSuggestions();
+});
+
+searchInput.addEventListener("keydown",event=>{
+  if(event.key === "Enter"){
+    const results = getSearchResults();
+
+    if(results.length > 0){
+      jumpToMarker(results[0].id);
+      closeToolbarOnMobile();
+    }
+  }
+
+  if(event.key === "Escape"){
+    suggestions.style.display = "none";
+  }
+});
+
+document.addEventListener("click",event=>{
+  if(!event.target.closest(".searchBox")){
+    suggestions.style.display = "none";
+  }
+});
+
+mapContainer.addEventListener("pointerdown",startMapDrag);
+window.addEventListener("pointermove",moveMapDrag);
+window.addEventListener("pointerup",endMapDrag);
+window.addEventListener("pointercancel",endMapDrag);
+
+closeBtn.addEventListener("click",closePanel);
+reloadBtn.addEventListener("click",loadMarkers);
 
 loadMarkers();
 
