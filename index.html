@@ -1,316 +1,477 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!doctype html>
+<html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Hiragino Mincho ProN'; -webkit-text-stroke: #000000}
-    span.s1 {font-kerning: none}
-    span.s2 {font: 12.0px 'Hiragino Mincho ProN'; font-kerning: none}
-    span.s3 {font: 12.0px 'Apple Color Emoji'; font-kerning: none}
-    span.s4 {font: 12.0px Times; font-kerning: none}
-    span.s5 {font: 12.0px 'Lucida Grande'; font-kerning: none}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TOKYO2026</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#f3f4f6;
+  overflow:hidden;
+}
+
+header{
+  height:60px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  background:white;
+  border-bottom:1px solid #ddd;
+}
+
+button,
+select,
+input,
+textarea{
+  font:inherit;
+}
+
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.primary{
+  background:#2563eb;
+  color:white;
+}
+
+#mapContainer{
+  width:100vw;
+  height:calc(100vh - 60px);
+  overflow:auto;
+  background:#d1d5db;
+  position:relative;
+}
+
+#mapInner{
+  position:relative;
+  width:5040px;
+  height:3564px;
+}
+
+#railmap{
+  width:5040px;
+  height:3564px;
+  display:block;
+  user-select:none;
+}
+
+.marker{
+  position:absolute;
+  transform:translate(-50%,-100%);
+  font-size:42px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.memo{
+  position:absolute;
+  right:-12px;
+  top:-10px;
+  font-size:18px;
+  background:white;
+  border-radius:999px;
+  padding:2px;
+}
+
+#panel{
+  position:fixed;
+  top:80px;
+  right:20px;
+  width:340px;
+  background:white;
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  display:none;
+}
+
+#panel.show{
+  display:block;
+}
+
+.field{
+  margin-bottom:12px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:4px;
+  font-size:12px;
+  color:#666;
+}
+
+.field input,
+.field textarea,
+.field select{
+  width:100%;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:10px;
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+.hint{
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  background:rgba(0,0,0,.75);
+  color:white;
+  padding:10px;
+  border-radius:10px;
+  font-size:12px;
+  z-index:10;
+}
+</style>
 </head>
+
 <body>
-<p class="p1"><span class="s1">&lt;!doctype html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="ja"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="utf-8" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;</span><span class="s2">東京路線図メモ</span><span class="s1"> </span><span class="s2">試作版</span><span class="s1">&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>:root {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--panel: rgba(255,255,255,.94);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--border: rgba(0,0,0,.12);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--text: #17202a;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--muted: #667085;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--accent: #2563eb;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--danger: #dc2626;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--shadow: 0 12px 32px rgba(16,24,40,.18);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>* { box-sizing: border-box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--text); background:#f6f7f9; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.app { height: 100vh; display: grid; grid-template-rows: auto 1fr; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>header {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; justify-content:space-between; gap:12px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>padding:10px 14px; background: var(--panel); border-bottom:1px solid var(--border); z-index:10;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>h1 { font-size:16px; margin:0; white-space:nowrap; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button, select, input, textarea {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font: inherit; border:1px solid var(--border); border-radius:10px; background:white; color:var(--text);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button { padding:8px 10px; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,.04); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button.primary { background:var(--accent); color:white; border-color:var(--accent); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button.danger { background:#fff; color:var(--danger); border-color:rgba(220,38,38,.35); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button.active { outline:3px solid rgba(37,99,235,.18); border-color:var(--accent); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>select, input { padding:8px 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.map-wrap { position:relative; overflow:hidden; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>iframe { position:absolute; inset:0; width:100%; height:100%; border:0; background:white; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#overlay {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position:absolute; inset:0; z-index:2;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>pointer-events:none;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#overlay.placing { pointer-events:auto; cursor:crosshair; background:rgba(37,99,235,.04); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.marker {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position:absolute; transform:translate(-50%,-100%); min-width:28px; min-height:28px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display:flex; align-items:center; justify-content:center;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-size:24px; filter: drop-shadow(0 2px 2px rgba(0,0,0,.24));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>pointer-events:auto; cursor:pointer; user-select:none;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.marker .memo-dot {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position:absolute; right:-8px; top:-7px; font-size:15px; background:white; border-radius:999px; padding:0 2px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>box-shadow:0 1px 4px rgba(0,0,0,.18);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position:absolute; right:14px; top:14px; width:min(360px, calc(100vw - 28px)); z-index:4;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background:var(--panel); border:1px solid var(--border); border-radius:18px; box-shadow:var(--shadow); padding:14px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display:none;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel.show { display:block; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel h2 { font-size:15px; margin:0 0 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.row { display:grid; gap:6px; margin:10px 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>label { font-size:12px; color:var(--muted); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>textarea { width:100%; min-height:86px; padding:10px; resize:vertical; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.panel-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hint {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position:absolute; left:14px; bottom:14px; z-index:4; max-width:min(560px, calc(100vw - 28px));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background:rgba(17,24,39,.86); color:white; padding:10px 12px; border-radius:14px; font-size:13px; line-height:1.55;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.status { font-size:12px; color:var(--muted); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width: 720px) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>header { align-items:flex-start; flex-direction:column; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.toolbar { justify-content:flex-start; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>.hint { font-size:12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="app"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h1&gt;</span><span class="s2">東京路線図メモ</span><span class="s1"> </span><span class="s2">試作版</span><span class="s1">&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="toolbar"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="placeBtn" class="primary"&gt;</span><span class="s2">マーク追加</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;select id="rankSelect" title="</span><span class="s2">ランク</span><span class="s1">"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;option value="love"&gt;</span><span class="s3">😍</span><span class="s1"> </span><span class="s2">とっても住みたい</span><span class="s1">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;option value="want"&gt;</span><span class="s3">⭐</span><span class="s1"> </span><span class="s2">住みたい</span><span class="s1">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;option value="low"&gt;</span><span class="s3">👀</span><span class="s1"> </span><span class="s2">少し気になる</span><span class="s1">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input id="filterInput" placeholder="</span><span class="s2">駅名検索</span><span class="s1">" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button id="reloadBtn"&gt;</span><span class="s2">再読込</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;span id="status" class="status"&gt;</span><span class="s2">未保存</span><span class="s1">&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;main class="map-wrap"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;iframe id="railmap" src="https://www.railmaps.jp/" title="railmaps.jp </span><span class="s2">東京路線図</span><span class="s1">"&gt;&lt;/iframe&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div id="overlay"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;section id="editPanel" class="panel" aria-live="polite"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2 id="panelTitle"&gt;</span><span class="s2">駅メモ</span><span class="s1">&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label for="stationInput"&gt;</span><span class="s2">駅名</span><span class="s1">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;input id="stationInput" placeholder="</span><span class="s2">例：中野</span><span class="s1">" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label for="rankEdit"&gt;</span><span class="s2">ランク</span><span class="s1">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;select id="rankEdit"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="love"&gt;</span><span class="s3">😍</span><span class="s1"> </span><span class="s2">とっても住みたい</span><span class="s1">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="want"&gt;</span><span class="s3">⭐</span><span class="s1"> </span><span class="s2">住みたい</span><span class="s1">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;option value="low"&gt;</span><span class="s3">👀</span><span class="s1"> </span><span class="s2">少し気になる</span><span class="s1">&lt;/option&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/select&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;label for="memoInput"&gt;</span><span class="s2">メモ</span><span class="s1">&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;textarea id="memoInput" placeholder="</span><span class="s2">家賃相場、通勤、治安、スーパー、雰囲気など</span><span class="s1">"&gt;&lt;/textarea&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="panel-actions"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button id="deleteBtn" class="danger"&gt;</span><span class="s2">削除</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button id="closeBtn"&gt;</span><span class="s2">閉じる</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;button id="saveBtn" class="primary"&gt;</span><span class="s2">保存</span><span class="s1">&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="hint"&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s1">使い方：路線図を好きな位置に動かしてから「マーク追加」を押し、駅の近くをクリックします。</span><span class="s4">&lt;br&gt;</span></p>
-<p class="p3"><span class="s4"><span class="Apple-converted-space">        </span></span><span class="s5">※</span><span class="s1">外部サイトの中身は直接操作・読み取りできないため、この試作版は画面上にメモ用レイヤーを重ねています。</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">&lt;script&gt;</span></p>
-<p class="p1"><span class="s1">const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTJKw-Fc0z7RRTrXwY_dBGvpiM26PmEEPxg9A6Kpy-p2k9Vo38K-GCVZFvCBH0APIv/exec"; // </span><span class="s2">ここに</span><span class="s1">GAS</span><span class="s2">のウェブアプリ</span><span class="s1">URL</span><span class="s2">を入れる。空欄なら</span><span class="s1">localStorage</span><span class="s2">保存。</span></p>
-<p class="p1"><span class="s1">const STORAGE_KEY = "tokyo-railmap-memo-v1";</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">const rankMap = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>love: { emoji: "</span><span class="s3">😍</span><span class="s1">", label: "</span><span class="s2">とっても住みたい</span><span class="s1">" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>want: { emoji: "</span><span class="s3">⭐</span><span class="s1">", label: "</span><span class="s2">住みたい</span><span class="s1">" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>low:<span class="Apple-converted-space">  </span>{ emoji: "</span><span class="s3">👀</span><span class="s1">", label: "</span><span class="s2">少し気になる</span><span class="s1">" }</span></p>
-<p class="p1"><span class="s1">};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">let markers = [];</span></p>
-<p class="p1"><span class="s1">let selectedId = null;</span></p>
-<p class="p1"><span class="s1">let placing = false;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">const overlay = document.getElementById("overlay");</span></p>
-<p class="p1"><span class="s1">const placeBtn = document.getElementById("placeBtn");</span></p>
-<p class="p1"><span class="s1">const rankSelect = document.getElementById("rankSelect");</span></p>
-<p class="p1"><span class="s1">const rankEdit = document.getElementById("rankEdit");</span></p>
-<p class="p1"><span class="s1">const editPanel = document.getElementById("editPanel");</span></p>
-<p class="p1"><span class="s1">const stationInput = document.getElementById("stationInput");</span></p>
-<p class="p1"><span class="s1">const memoInput = document.getElementById("memoInput");</span></p>
-<p class="p1"><span class="s1">const saveBtn = document.getElementById("saveBtn");</span></p>
-<p class="p1"><span class="s1">const closeBtn = document.getElementById("closeBtn");</span></p>
-<p class="p1"><span class="s1">const deleteBtn = document.getElementById("deleteBtn");</span></p>
-<p class="p1"><span class="s1">const reloadBtn = document.getElementById("reloadBtn");</span></p>
-<p class="p1"><span class="s1">const statusEl = document.getElementById("status");</span></p>
-<p class="p1"><span class="s1">const filterInput = document.getElementById("filterInput");</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function setStatus(text) { statusEl.textContent = text; }</span></p>
-<p class="p1"><span class="s1">function uid() { return crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random(); }</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">async function loadMarkers() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setStatus("</span><span class="s2">読み込み中</span><span class="s1">...");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (GAS_WEB_APP_URL) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const res = await fetch(GAS_WEB_APP_URL + "?t=" + Date.now());</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const data = await res.json();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>markers = Array.isArray(data.markers) ? data.markers : [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>markers = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>renderMarkers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setStatus("</span><span class="s2">読み込み完了</span><span class="s1">");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>} catch (e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>console.error(e);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setStatus("</span><span class="s2">読み込み失敗</span><span class="s1">");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">async function persistMarkers() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setStatus("</span><span class="s2">保存中</span><span class="s1">...");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (GAS_WEB_APP_URL) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>await fetch(GAS_WEB_APP_URL, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>method: "POST",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>mode: "no-cors",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>headers: { "Content-Type": "text/plain;charset=utf-8" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body: JSON.stringify({ markers })</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>localStorage.setItem(STORAGE_KEY, JSON.stringify(markers));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setStatus("</span><span class="s2">保存済み</span><span class="s1"> " + new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" }));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>} catch (e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>console.error(e);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setStatus("</span><span class="s2">保存失敗</span><span class="s1">");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function renderMarkers() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>overlay.querySelectorAll(".marker").forEach(el =&gt; el.remove());</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const q = filterInput.value.trim().toLowerCase();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>for (const m of markers) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (q &amp;&amp; !(m.station || "").toLowerCase().includes(q) &amp;&amp; !(m.memo || "").toLowerCase().includes(q)) continue;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const el = document.createElement("div");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.className = "marker";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.style.left = (m.x * 100) + "%";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.style.top = (m.y * 100) + "%";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.title = `${m.station || "</span><span class="s2">駅名未入力</span><span class="s1">"} / ${rankMap[m.rank]?.label || ""}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.dataset.id = m.id;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.textContent = rankMap[m.rank]?.emoji || "</span><span class="s3">⭐</span><span class="s1">";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if ((m.memo || "").trim()) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const dot = document.createElement("span");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>dot.className = "memo-dot";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>dot.textContent = "</span><span class="s3">✏️</span><span class="s1">";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>el.appendChild(dot);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>el.addEventListener("click", e =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>e.stopPropagation();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>openEditor(m.id);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>overlay.appendChild(el);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function setPlacing(next) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>placing = next;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>overlay.classList.toggle("placing", placing);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>placeBtn.classList.toggle("active", placing);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>placeBtn.textContent = placing ? "</span><span class="s2">配置中：駅をクリック</span><span class="s1">" : "</span><span class="s2">マーク追加</span><span class="s1">";</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function openEditor(id) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>selectedId = id;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const m = markers.find(x =&gt; x.id === id);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!m) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>stationInput.value = m.station || "";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>rankEdit.value = m.rank || "want";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>memoInput.value = m.memo || "";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>document.getElementById("panelTitle").textContent = (m.station || "</span><span class="s2">駅名未入力</span><span class="s1">") + " </span><span class="s2">のメモ</span><span class="s1">";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>editPanel.classList.add("show");</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">function closeEditor() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>editPanel.classList.remove("show");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>selectedId = null;</span></p>
-<p class="p1"><span class="s1">}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">placeBtn.addEventListener("click", () =&gt; setPlacing(!placing));</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">overlay.addEventListener("click", e =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!placing) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const rect = overlay.getBoundingClientRect();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const m = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>id: uid(),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>station: "",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>rank: rankSelect.value,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>memo: "",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>x: (e.clientX - rect.left) / rect.width,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>y: (e.clientY - rect.top) / rect.height,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>updatedAt: new Date().toISOString()</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>markers.push(m);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>renderMarkers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>setPlacing(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>openEditor(m.id);</span></p>
-<p class="p1"><span class="s1">});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">saveBtn.addEventListener("click", async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const m = markers.find(x =&gt; x.id === selectedId);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!m) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>m.station = stationInput.value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>m.rank = rankEdit.value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>m.memo = memoInput.value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>m.updatedAt = new Date().toISOString();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>renderMarkers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>await persistMarkers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>closeEditor();</span></p>
-<p class="p1"><span class="s1">});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">closeBtn.addEventListener("click", closeEditor);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">deleteBtn.addEventListener("click", async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!selectedId) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>if (!confirm("</span><span class="s2">このマークを削除しますか？</span><span class="s1">")) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>markers = markers.filter(x =&gt; x.id !== selectedId);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>renderMarkers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>await persistMarkers();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>closeEditor();</span></p>
-<p class="p1"><span class="s1">});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">reloadBtn.addEventListener("click", loadMarkers);</span></p>
-<p class="p1"><span class="s1">filterInput.addEventListener("input", renderMarkers);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1">loadMarkers();</span></p>
-<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+
+<header>
+
+<button id="addBtn" class="primary">
+マーク追加
+</button>
+
+<select id="rankSelect">
+<option value="love">😍 とっても住みたい</option>
+<option value="want">⭐ 住みたい</option>
+<option value="low">👀 少し気になる</option>
+</select>
+
+<input id="searchInput" placeholder="駅検索">
+
+<span id="status"></span>
+
+</header>
+
+<div id="mapContainer">
+
+<div id="mapInner">
+
+<img
+id="railmap"
+src="tokyo-railmap.png"
+>
+
+</div>
+
+</div>
+
+<div id="panel">
+
+<h2 id="panelTitle">
+駅メモ
+</h2>
+
+<div class="field">
+<label>駅名</label>
+<input id="stationInput">
+</div>
+
+<div class="field">
+<label>ランク</label>
+
+<select id="rankEdit">
+<option value="love">😍 とっても住みたい</option>
+<option value="want">⭐ 住みたい</option>
+<option value="low">👀 少し気になる</option>
+</select>
+
+</div>
+
+<div class="field">
+<label>メモ</label>
+<textarea id="memoInput"></textarea>
+</div>
+
+<div class="actions">
+
+<button id="deleteBtn">
+削除
+</button>
+
+<button id="closeBtn">
+閉じる
+</button>
+
+<button id="saveBtn" class="primary">
+保存
+</button>
+
+</div>
+
+</div>
+
+<div class="hint">
+
+マーク追加 → 駅クリック → 保存
+
+</div>
+
+<script>
+
+const GAS_WEB_APP_URL = "";
+
+const rankMap = {
+  love:{
+    emoji:"😍"
+  },
+  want:{
+    emoji:"⭐"
+  },
+  low:{
+    emoji:"👀"
+  }
+};
+
+let markers = [];
+
+let adding = false;
+
+let selectedId = null;
+
+const mapInner = document.getElementById("mapInner");
+
+const addBtn = document.getElementById("addBtn");
+
+const rankSelect = document.getElementById("rankSelect");
+
+const panel = document.getElementById("panel");
+
+const stationInput = document.getElementById("stationInput");
+
+const memoInput = document.getElementById("memoInput");
+
+const rankEdit = document.getElementById("rankEdit");
+
+const saveBtn = document.getElementById("saveBtn");
+
+const closeBtn = document.getElementById("closeBtn");
+
+const deleteBtn = document.getElementById("deleteBtn");
+
+const searchInput = document.getElementById("searchInput");
+
+const statusEl = document.getElementById("status");
+
+function uid(){
+  return Math.random().toString(36).slice(2);
+}
+
+function renderMarkers(){
+
+  document
+    .querySelectorAll(".marker")
+    .forEach(el=>el.remove());
+
+  const q = searchInput.value.toLowerCase();
+
+  markers.forEach(marker=>{
+
+    if(
+      q &&
+      !marker.station.toLowerCase().includes(q) &&
+      !marker.memo.toLowerCase().includes(q)
+    ){
+      return;
+    }
+
+    const el = document.createElement("div");
+
+    el.className = "marker";
+
+    el.style.left = marker.x + "px";
+
+    el.style.top = marker.y + "px";
+
+    el.textContent =
+      rankMap[marker.rank].emoji;
+
+    if(marker.memo){
+
+      const memo = document.createElement("span");
+
+      memo.className = "memo";
+
+      memo.textContent = "✏️";
+
+      el.appendChild(memo);
+
+    }
+
+    el.addEventListener("click",()=>{
+
+      selectedId = marker.id;
+
+      stationInput.value = marker.station;
+
+      memoInput.value = marker.memo;
+
+      rankEdit.value = marker.rank;
+
+      panel.classList.add("show");
+
+    });
+
+    mapInner.appendChild(el);
+
+  });
+
+}
+
+function saveLocal(){
+
+  localStorage.setItem(
+    "tokyo2026",
+    JSON.stringify(markers)
+  );
+
+}
+
+function loadLocal(){
+
+  const data =
+    localStorage.getItem("tokyo2026");
+
+  if(data){
+
+    markers = JSON.parse(data);
+
+  }
+
+  renderMarkers();
+
+}
+
+addBtn.addEventListener("click",()=>{
+
+  adding = !adding;
+
+  addBtn.textContent =
+    adding ?
+    "駅をクリック" :
+    "マーク追加";
+
+});
+
+mapInner.addEventListener("click",(e)=>{
+
+  if(!adding){
+    return;
+  }
+
+  const rect =
+    mapInner.getBoundingClientRect();
+
+  const x =
+    e.clientX - rect.left;
+
+  const y =
+    e.clientY - rect.top;
+
+  markers.push({
+
+    id:uid(),
+
+    x,
+    y,
+
+    station:"",
+
+    memo:"",
+
+    rank:rankSelect.value
+
+  });
+
+  adding = false;
+
+  addBtn.textContent =
+    "マーク追加";
+
+  renderMarkers();
+
+});
+
+saveBtn.addEventListener("click",()=>{
+
+  const marker =
+    markers.find(
+      m=>m.id===selectedId
+    );
+
+  if(!marker){
+    return;
+  }
+
+  marker.station =
+    stationInput.value;
+
+  marker.memo =
+    memoInput.value;
+
+  marker.rank =
+    rankEdit.value;
+
+  saveLocal();
+
+  renderMarkers();
+
+  panel.classList.remove("show");
+
+});
+
+closeBtn.addEventListener("click",()=>{
+
+  panel.classList.remove("show");
+
+});
+
+deleteBtn.addEventListener("click",()=>{
+
+  markers =
+    markers.filter(
+      m=>m.id!==selectedId
+    );
+
+  saveLocal();
+
+  renderMarkers();
+
+  panel.classList.remove("show");
+
+});
+
+searchInput.addEventListener(
+  "input",
+  renderMarkers
+);
+
+loadLocal();
+
+</script>
+
 </body>
 </html>
