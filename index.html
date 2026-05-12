@@ -6,434 +6,1083 @@
 <title>TOKYO2026</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background: #f3f4f6;
-  overflow: hidden;
+:root{
+  --bg:#f4f7fb;
+  --panel:rgba(255,255,255,.82);
+  --border:rgba(15,23,42,.08);
+  --text:#0f172a;
+  --muted:#64748b;
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --shadow:0 12px 40px rgba(15,23,42,.16);
 }
 
-header {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: white;
-  border-bottom: 1px solid #ddd;
+body{
+  margin:0;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  background:var(--bg);
+  overflow:hidden;
+  color:var(--text);
+}
+
+header{
+
+  height:72px;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:0 18px;
+
+  background:rgba(255,255,255,.78);
+
+  backdrop-filter:blur(20px);
+
+  border-bottom:1px solid var(--border);
+
+  position:relative;
+  z-index:50;
+
+  box-shadow:
+    0 4px 20px rgba(15,23,42,.04);
+
+}
+
+.logo{
+
+  font-size:24px;
+  font-weight:800;
+
+  letter-spacing:-0.05em;
+
+  margin-right:10px;
+
 }
 
 button,
 select,
 input,
-textarea {
-  font: inherit;
+textarea{
+  font:inherit;
 }
 
-button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+button{
+
+  height:42px;
+
+  border:none;
+
+  border-radius:999px;
+
+  padding:0 16px;
+
+  cursor:pointer;
+
+  transition:.18s ease;
+
 }
 
-.primary {
-  background: #2563eb;
-  color: white;
+button:hover{
+
+  transform:translateY(-1px);
+
 }
 
-#mapContainer {
-  width: 100vw;
-  height: calc(100vh - 60px);
-  overflow: auto;
-  background: #d1d5db;
-  position: relative;
+.primary{
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--primary2)
+    );
+
+  color:white;
+
+  font-weight:700;
+
+  box-shadow:
+    0 6px 20px rgba(37,99,235,.28);
+
 }
 
-#mapInner {
-  position: relative;
-  width: 5040px;
-  height: 3564px;
+.primary:hover{
+
+  box-shadow:
+    0 10px 24px rgba(37,99,235,.34);
+
 }
 
-#railmap {
-  width: 5040px;
-  height: 3564px;
-  display: block;
-  user-select: none;
+.secondary{
+
+  background:white;
+
+  border:1px solid var(--border);
+
+  color:var(--text);
+
 }
 
-.marker {
-  position: absolute;
-  transform: translate(-50%, -100%);
-  font-size: 42px;
-  cursor: pointer;
-  user-select: none;
-  z-index: 5;
+.secondary:hover{
+
+  background:#f8fafc;
+
 }
 
-.memo {
-  position: absolute;
-  right: -12px;
-  top: -10px;
-  font-size: 18px;
-  background: white;
-  border-radius: 999px;
-  padding: 2px;
+select,
+input{
+
+  height:42px;
+
+  border-radius:999px;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.92);
+
+  padding:0 14px;
+
+  outline:none;
+
+  transition:.15s ease;
+
 }
 
-#panel {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  width: 340px;
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.2);
-  display: none;
-  z-index: 20;
+select:focus,
+input:focus,
+textarea:focus{
+
+  border-color:var(--primary);
+
+  box-shadow:
+    0 0 0 4px rgba(37,99,235,.12);
+
 }
 
-#panel.show {
-  display: block;
+#searchInput{
+
+  min-width:240px;
+
 }
 
-.field {
-  margin-bottom: 12px;
+#status{
+
+  margin-left:auto;
+
+  font-size:12px;
+
+  color:var(--muted);
+
+  background:rgba(15,23,42,.04);
+
+  border:1px solid var(--border);
+
+  padding:8px 12px;
+
+  border-radius:999px;
+
 }
 
-.field label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: #666;
+#mapContainer{
+
+  width:100vw;
+
+  height:calc(100vh - 72px);
+
+  overflow:auto;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(37,99,235,.10),
+      transparent 34%
+    ),
+    #dfe5ec;
+
+  position:relative;
+
+}
+
+#mapInner{
+
+  position:relative;
+
+  width:5040px;
+  height:3564px;
+
+}
+
+#railmap{
+
+  width:5040px;
+  height:3564px;
+
+  display:block;
+
+  user-select:none;
+
+}
+
+.marker{
+
+  position:absolute;
+
+  transform:translate(-50%,-100%);
+
+  font-size:42px;
+
+  cursor:pointer;
+
+  user-select:none;
+
+  z-index:5;
+
+  transition:.16s ease;
+
+  filter:
+    drop-shadow(
+      0 4px 6px rgba(15,23,42,.26)
+    );
+
+}
+
+.marker:hover{
+
+  transform:
+    translate(-50%,-100%)
+    scale(1.14);
+
+}
+
+.memo{
+
+  position:absolute;
+
+  right:-12px;
+  top:-10px;
+
+  font-size:18px;
+
+  background:white;
+
+  border-radius:999px;
+
+  padding:2px;
+
+  box-shadow:
+    0 2px 10px rgba(15,23,42,.18);
+
+}
+
+#panel{
+
+  position:fixed;
+
+  top:92px;
+  right:20px;
+
+  width:360px;
+
+  background:var(--panel);
+
+  backdrop-filter:blur(24px);
+
+  border:1px solid var(--border);
+
+  border-radius:24px;
+
+  padding:18px;
+
+  box-shadow:var(--shadow);
+
+  display:none;
+
+  z-index:100;
+
+}
+
+#panel.show{
+  display:block;
+}
+
+#panel h2{
+
+  margin:0 0 16px;
+
+  font-size:20px;
+
+  letter-spacing:-0.04em;
+
+}
+
+.field{
+
+  margin-bottom:14px;
+
+}
+
+.field label{
+
+  display:block;
+
+  margin-bottom:6px;
+
+  font-size:12px;
+
+  font-weight:700;
+
+  color:var(--muted);
+
 }
 
 .field input,
 .field textarea,
-.field select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+.field select{
+
+  width:100%;
+
+  border-radius:16px;
+
+  border:1px solid var(--border);
+
+  background:rgba(255,255,255,.92);
+
+  padding:12px;
+
+  outline:none;
+
 }
 
-textarea {
-  min-height: 100px;
-  resize: vertical;
+textarea{
+
+  min-height:120px;
+
+  resize:vertical;
+
 }
 
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
+.actions{
+
+  display:flex;
+
+  justify-content:flex-end;
+
+  gap:8px;
+
 }
 
-.danger {
-  color: #dc2626;
+.danger{
+
+  background:#fff5f5;
+
+  color:#dc2626;
+
+  border:1px solid rgba(220,38,38,.18);
+
 }
 
-.hint {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(0,0,0,.75);
-  color: white;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  z-index: 10;
+.hint{
+
+  position:fixed;
+
+  left:14px;
+  bottom:14px;
+
+  background:
+    rgba(15,23,42,.82);
+
+  backdrop-filter:blur(16px);
+
+  color:white;
+
+  padding:12px 14px;
+
+  border-radius:18px;
+
+  font-size:12px;
+
+  z-index:30;
+
+  box-shadow:
+    0 10px 24px rgba(15,23,42,.22);
+
 }
+
+@media(max-width:900px){
+
+  header{
+
+    height:auto;
+
+    padding:12px;
+
+    flex-wrap:wrap;
+
+  }
+
+  #mapContainer{
+
+    height:
+      calc(100vh - 132px);
+
+  }
+
+  #searchInput{
+
+    min-width:160px;
+    flex:1;
+
+  }
+
+  #status{
+
+    margin-left:0;
+
+  }
+
+  #panel{
+
+    left:12px;
+    right:12px;
+
+    width:auto;
+
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-  <button id="addBtn" class="primary">マーク追加</button>
 
-  <select id="rankSelect">
-    <option value="love">😍 とっても住みたい</option>
-    <option value="want">⭐ 住みたい</option>
-    <option value="low">👀 少し気になる</option>
-  </select>
+<div class="logo">
+TOKYO2026
+</div>
 
-  <input id="searchInput" placeholder="駅名・メモ検索">
+<button
+  id="addBtn"
+  class="primary">
 
-  <button id="reloadBtn">再読み込み</button>
+  マーク追加
 
-  <span id="status">読み込み前</span>
+</button>
+
+<select id="rankSelect">
+
+  <option value="love">
+    😍 とっても住みたい
+  </option>
+
+  <option value="want">
+    ⭐ 住みたい
+  </option>
+
+  <option value="low">
+    👀 少し気になる
+  </option>
+
+</select>
+
+<input
+  id="searchInput"
+  placeholder="駅名・メモ検索">
+
+<button
+  id="reloadBtn"
+  class="secondary">
+
+  再読み込み
+
+</button>
+
+<div id="status">
+  読み込み前
+</div>
+
 </header>
 
 <div id="mapContainer">
-  <div id="mapInner">
-    <img id="railmap" src="tokyo-railmap.png" alt="首都圏路線図">
-  </div>
+
+<div id="mapInner">
+
+<img
+  id="railmap"
+  src="tokyo-railmap.png"
+  alt="首都圏路線図">
+
+</div>
+
 </div>
 
 <div id="panel">
-  <h2 id="panelTitle">駅メモ</h2>
 
-  <div class="field">
-    <label>駅名</label>
-    <input id="stationInput">
-  </div>
+<h2 id="panelTitle">
+駅メモ
+</h2>
 
-  <div class="field">
-    <label>ランク</label>
-    <select id="rankEdit">
-      <option value="love">😍 とっても住みたい</option>
-      <option value="want">⭐ 住みたい</option>
-      <option value="low">👀 少し気になる</option>
-    </select>
-  </div>
+<div class="field">
 
-  <div class="field">
-    <label>メモ</label>
-    <textarea id="memoInput"></textarea>
-  </div>
+<label>
+駅名
+</label>
 
-  <div class="actions">
-    <button id="deleteBtn" class="danger">削除</button>
-    <button id="closeBtn">閉じる</button>
-    <button id="saveBtn" class="primary">保存</button>
-  </div>
+<input id="stationInput">
+
+</div>
+
+<div class="field">
+
+<label>
+ランク
+</label>
+
+<select id="rankEdit">
+
+<option value="love">
+😍 とっても住みたい
+</option>
+
+<option value="want">
+⭐ 住みたい
+</option>
+
+<option value="low">
+👀 少し気になる
+</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>
+メモ
+</label>
+
+<textarea id="memoInput"></textarea>
+
+</div>
+
+<div class="actions">
+
+<button
+  id="deleteBtn"
+  class="danger">
+
+  削除
+
+</button>
+
+<button
+  id="closeBtn"
+  class="secondary">
+
+  閉じる
+
+</button>
+
+<button
+  id="saveBtn"
+  class="primary">
+
+  保存
+
+</button>
+
+</div>
+
 </div>
 
 <div class="hint">
-  マーク追加 → 駅の近くをクリック → 駅名・メモ入力 → 保存
+
+マーク追加 → 駅クリック → 保存
+
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzTJKw-Fc0z7RRTrXwY_dBGvpiM26PmEEPxg9A6Kpy-p2k9Vo38K-GCVZFvCBH0APIv/exec";
 
-const STORAGE_KEY = "tokyo2026";
+const GAS_WEB_APP_URL =
+"https://script.google.com/macros/s/AKfycbzTJKw-Fc0z7RRTrXwY_dBGvpiM26PmEEPxg9A6Kpy-p2k9Vo38K-GCVZFvCBH0APIv/exec";
+
+const STORAGE_KEY =
+"tokyo2026";
 
 const rankMap = {
-  love: {
-    emoji: "😍",
-    label: "とっても住みたい"
+
+  love:{
+    emoji:"😍"
   },
-  want: {
-    emoji: "⭐",
-    label: "住みたい"
+
+  want:{
+    emoji:"⭐"
   },
-  low: {
-    emoji: "👀",
-    label: "少し気になる"
+
+  low:{
+    emoji:"👀"
   }
+
 };
 
 let markers = [];
+
 let adding = false;
+
 let selectedId = null;
 
-const mapInner = document.getElementById("mapInner");
-const addBtn = document.getElementById("addBtn");
-const rankSelect = document.getElementById("rankSelect");
-const searchInput = document.getElementById("searchInput");
-const reloadBtn = document.getElementById("reloadBtn");
-const statusEl = document.getElementById("status");
+const mapInner =
+document.getElementById("mapInner");
 
-const panel = document.getElementById("panel");
-const panelTitle = document.getElementById("panelTitle");
-const stationInput = document.getElementById("stationInput");
-const memoInput = document.getElementById("memoInput");
-const rankEdit = document.getElementById("rankEdit");
-const saveBtn = document.getElementById("saveBtn");
-const closeBtn = document.getElementById("closeBtn");
-const deleteBtn = document.getElementById("deleteBtn");
+const addBtn =
+document.getElementById("addBtn");
 
-function hasGasUrl() {
-  return GAS_WEB_APP_URL && !GAS_WEB_APP_URL.includes("ここに");
+const rankSelect =
+document.getElementById("rankSelect");
+
+const searchInput =
+document.getElementById("searchInput");
+
+const reloadBtn =
+document.getElementById("reloadBtn");
+
+const statusEl =
+document.getElementById("status");
+
+const panel =
+document.getElementById("panel");
+
+const panelTitle =
+document.getElementById("panelTitle");
+
+const stationInput =
+document.getElementById("stationInput");
+
+const memoInput =
+document.getElementById("memoInput");
+
+const rankEdit =
+document.getElementById("rankEdit");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const closeBtn =
+document.getElementById("closeBtn");
+
+const deleteBtn =
+document.getElementById("deleteBtn");
+
+function hasGasUrl(){
+
+  return(
+    GAS_WEB_APP_URL &&
+    !GAS_WEB_APP_URL.includes("ここに")
+  );
+
 }
 
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+function uid(){
+
+  return(
+    Date.now().toString(36) +
+    Math.random().toString(36).slice(2)
+  );
+
 }
 
-function setStatus(text) {
+function setStatus(text){
+
   statusEl.textContent = text;
+
 }
 
-async function loadMarkers() {
+async function loadMarkers(){
+
   setStatus("読み込み中...");
 
-  try {
-    if (hasGasUrl()) {
-      const res = await fetch(GAS_WEB_APP_URL + "?t=" + Date.now());
-      const data = await res.json();
-      markers = data.markers || [];
-    } else {
-      const data = localStorage.getItem(STORAGE_KEY);
-      markers = data ? JSON.parse(data) : [];
+  try{
+
+    if(hasGasUrl()){
+
+      const res =
+        await fetch(
+          GAS_WEB_APP_URL +
+          "?t=" +
+          Date.now()
+        );
+
+      const data =
+        await res.json();
+
+      markers =
+        data.markers || [];
+
+    }else{
+
+      const data =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      markers =
+        data ?
+        JSON.parse(data) :
+        [];
+
     }
 
     renderMarkers();
+
     setStatus("読み込み完了");
-  } catch (error) {
+
+  }catch(error){
+
     console.error(error);
+
     setStatus("読み込み失敗");
+
   }
+
 }
 
-async function saveMarkers() {
+async function saveMarkers(){
+
   setStatus("保存中...");
 
-  try {
-    if (hasGasUrl()) {
-      await fetch(GAS_WEB_APP_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify({
-          markers: markers
-        })
-      });
-    } else {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(markers));
+  try{
+
+    if(hasGasUrl()){
+
+      await fetch(
+        GAS_WEB_APP_URL,
+        {
+          method:"POST",
+
+          mode:"no-cors",
+
+          headers:{
+            "Content-Type":
+            "text/plain;charset=utf-8"
+          },
+
+          body:JSON.stringify({
+            markers:markers
+          })
+        }
+      );
+
+    }else{
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(markers)
+      );
+
     }
 
     setStatus("保存済み");
-  } catch (error) {
+
+  }catch(error){
+
     console.error(error);
+
     setStatus("保存失敗");
+
   }
+
 }
 
-function renderMarkers() {
-  document.querySelectorAll(".marker").forEach(el => el.remove());
+function renderMarkers(){
 
-  const q = searchInput.value.trim().toLowerCase();
+  document
+    .querySelectorAll(".marker")
+    .forEach(el=>el.remove());
 
-  markers.forEach(marker => {
-    const station = marker.station || "";
-    const memo = marker.memo || "";
+  const q =
+    searchInput.value
+      .trim()
+      .toLowerCase();
 
-    if (
+  markers.forEach(marker=>{
+
+    const station =
+      marker.station || "";
+
+    const memo =
+      marker.memo || "";
+
+    if(
       q &&
-      !station.toLowerCase().includes(q) &&
-      !memo.toLowerCase().includes(q)
-    ) {
+      !station
+        .toLowerCase()
+        .includes(q) &&
+      !memo
+        .toLowerCase()
+        .includes(q)
+    ){
       return;
     }
 
-    const el = document.createElement("div");
-    el.className = "marker";
-    el.style.left = marker.x + "px";
-    el.style.top = marker.y + "px";
-    el.textContent = rankMap[marker.rank]?.emoji || "⭐";
-    el.title = station || "駅名未入力";
+    const el =
+      document.createElement("div");
 
-    if (memo.trim()) {
-      const memoIcon = document.createElement("span");
-      memoIcon.className = "memo";
-      memoIcon.textContent = "✏️";
+    el.className =
+      "marker";
+
+    el.style.left =
+      marker.x + "px";
+
+    el.style.top =
+      marker.y + "px";
+
+    el.textContent =
+      rankMap[marker.rank]
+      ?.emoji || "⭐";
+
+    if(memo.trim()){
+
+      const memoIcon =
+        document.createElement("span");
+
+      memoIcon.className =
+        "memo";
+
+      memoIcon.textContent =
+        "✏️";
+
       el.appendChild(memoIcon);
+
     }
 
-    el.addEventListener("click", event => {
-      event.stopPropagation();
-      openPanel(marker.id);
-    });
+    el.addEventListener(
+      "click",
+      event=>{
+
+        event.stopPropagation();
+
+        openPanel(marker.id);
+
+      }
+    );
 
     mapInner.appendChild(el);
+
   });
+
 }
 
-function openPanel(id) {
+function openPanel(id){
+
   selectedId = id;
 
-  const marker = markers.find(m => m.id === id);
-  if (!marker) return;
+  const marker =
+    markers.find(
+      m=>m.id===id
+    );
 
-  stationInput.value = marker.station || "";
-  memoInput.value = marker.memo || "";
-  rankEdit.value = marker.rank || "want";
-
-  panelTitle.textContent = (marker.station || "駅名未入力") + " のメモ";
-  panel.classList.add("show");
-}
-
-function closePanel() {
-  selectedId = null;
-  panel.classList.remove("show");
-}
-
-addBtn.addEventListener("click", () => {
-  adding = !adding;
-  addBtn.textContent = adding ? "配置中：駅をクリック" : "マーク追加";
-});
-
-mapInner.addEventListener("click", event => {
-  if (!adding) return;
-
-  const rect = mapInner.getBoundingClientRect();
-
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-
-  const marker = {
-    id: uid(),
-    x: x,
-    y: y,
-    station: "",
-    memo: "",
-    rank: rankSelect.value,
-    updatedAt: new Date().toISOString()
-  };
-
-  markers.push(marker);
-
-  adding = false;
-  addBtn.textContent = "マーク追加";
-
-  renderMarkers();
-  openPanel(marker.id);
-});
-
-saveBtn.addEventListener("click", async () => {
-  const marker = markers.find(m => m.id === selectedId);
-  if (!marker) return;
-
-  marker.station = stationInput.value.trim();
-  marker.memo = memoInput.value.trim();
-  marker.rank = rankEdit.value;
-  marker.updatedAt = new Date().toISOString();
-
-  renderMarkers();
-  await saveMarkers();
-  closePanel();
-});
-
-deleteBtn.addEventListener("click", async () => {
-  if (!selectedId) return;
-
-  if (!confirm("このマークを削除しますか？")) {
+  if(!marker){
     return;
   }
 
-  markers = markers.filter(m => m.id !== selectedId);
+  stationInput.value =
+    marker.station || "";
 
-  renderMarkers();
-  await saveMarkers();
-  closePanel();
-});
+  memoInput.value =
+    marker.memo || "";
 
-closeBtn.addEventListener("click", closePanel);
+  rankEdit.value =
+    marker.rank || "want";
 
-reloadBtn.addEventListener("click", loadMarkers);
+  panelTitle.textContent =
+    (
+      marker.station ||
+      "駅名未入力"
+    ) +
+    " のメモ";
 
-searchInput.addEventListener("input", renderMarkers);
+  panel.classList.add(
+    "show"
+  );
+
+}
+
+function closePanel(){
+
+  selectedId = null;
+
+  panel.classList.remove(
+    "show"
+  );
+
+}
+
+addBtn.addEventListener(
+  "click",
+  ()=>{
+
+    adding = !adding;
+
+    addBtn.textContent =
+      adding ?
+      "配置中：駅をクリック" :
+      "マーク追加";
+
+  }
+);
+
+mapInner.addEventListener(
+  "click",
+  event=>{
+
+    if(!adding){
+      return;
+    }
+
+    const rect =
+      mapInner.getBoundingClientRect();
+
+    const x =
+      event.clientX -
+      rect.left;
+
+    const y =
+      event.clientY -
+      rect.top;
+
+    const marker = {
+
+      id:uid(),
+
+      x:x,
+      y:y,
+
+      station:"",
+
+      memo:"",
+
+      rank:
+        rankSelect.value,
+
+      updatedAt:
+        new Date()
+        .toISOString()
+
+    };
+
+    markers.push(marker);
+
+    adding = false;
+
+    addBtn.textContent =
+      "マーク追加";
+
+    renderMarkers();
+
+    openPanel(marker.id);
+
+  }
+);
+
+saveBtn.addEventListener(
+  "click",
+  async()=>{
+
+    const marker =
+      markers.find(
+        m=>m.id===selectedId
+      );
+
+    if(!marker){
+      return;
+    }
+
+    marker.station =
+      stationInput.value
+        .trim();
+
+    marker.memo =
+      memoInput.value
+        .trim();
+
+    marker.rank =
+      rankEdit.value;
+
+    marker.updatedAt =
+      new Date()
+      .toISOString();
+
+    renderMarkers();
+
+    await saveMarkers();
+
+    closePanel();
+
+  }
+);
+
+deleteBtn.addEventListener(
+  "click",
+  async()=>{
+
+    if(!selectedId){
+      return;
+    }
+
+    if(
+      !confirm(
+        "このマークを削除しますか？"
+      )
+    ){
+      return;
+    }
+
+    markers =
+      markers.filter(
+        m=>m.id!==selectedId
+      );
+
+    renderMarkers();
+
+    await saveMarkers();
+
+    closePanel();
+
+  }
+);
+
+closeBtn.addEventListener(
+  "click",
+  closePanel
+);
+
+reloadBtn.addEventListener(
+  "click",
+  loadMarkers
+);
+
+searchInput.addEventListener(
+  "input",
+  renderMarkers
+);
 
 loadMarkers();
+
 </script>
 
 </body>
