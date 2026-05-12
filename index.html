@@ -681,7 +681,10 @@ function updateSuggestions(){
     item.appendChild(memo);
 
     item.addEventListener("click",()=>{
-      jumpToMarker(marker.id);
+      jumpToMarker(marker.id,{
+        updateSearch:true,
+        openEditor:true
+      });
       closeToolbarOnMobile();
     });
 
@@ -735,22 +738,29 @@ function renderMarkers(){
         return;
       }
 
-      jumpToMarker(marker.id);
+      openPanel(marker.id);
     });
 
     mapInner.appendChild(el);
   });
 }
 
-function jumpToMarker(id){
+function jumpToMarker(id,options = {}){
   const marker = markers.find(m=>m.id===id);
 
   if(!marker){
     return;
   }
 
+  const updateSearch = options.updateSearch === true;
+  const openEditor = options.openEditor !== false;
+
   selectedId = id;
-  searchInput.value = marker.station || "";
+
+  if(updateSearch){
+    searchInput.value = marker.station || "";
+  }
+
   suggestions.style.display = "none";
 
   renderMarkers();
@@ -771,9 +781,11 @@ function jumpToMarker(id){
     behavior:"smooth"
   });
 
-  setTimeout(()=>{
-    openPanel(id);
-  },300);
+  if(openEditor){
+    setTimeout(()=>{
+      openPanel(id);
+    },300);
+  }
 }
 
 function openPanel(id){
@@ -952,7 +964,10 @@ searchInput.addEventListener("keydown",event=>{
     const results = getSearchResults();
 
     if(results.length > 0){
-      jumpToMarker(results[0].id);
+      jumpToMarker(results[0].id,{
+        updateSearch:true,
+        openEditor:true
+      });
       closeToolbarOnMobile();
     }
   }
